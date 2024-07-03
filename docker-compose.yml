@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bblabs
+      SPRING_DATASOURCE_USERNAME: guest
+      SPRING_DATASOURCE_PASSWORD: guest
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: bblabs
+      POSTGRES_USER: guest
+      POSTGRES_PASSWORD: guest
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
